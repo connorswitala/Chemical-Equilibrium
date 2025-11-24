@@ -234,14 +234,6 @@ inline void CESolver::compute_equilibrium_TV(double T, double V) {
         converged = check_convergence(DlnNj.data(), dlnn, dlnt);
     }
 
-        gas.N_tot = 0.0;
-        for (int j = 0; j < NS; ++j)
-            gas.N_tot += gas.N[j];
-
-        for (int j = 0; j < NS; ++j) {
-            gas.X[j] = gas.N[j] / gas.N_tot;
-            gas.X0[j] = gas.N[j];
-        }
         compute_mixture_properties();
         compute_derivatives();
 }
@@ -322,17 +314,6 @@ inline void CESolver::compute_equilibrium_UV(double U, double V) {
         if (converged) iteration = maxiter;        
     }
 
-    // Get final molar concentrations
-    for (int j = 0; j < NS; ++j) {
-        gas.X[j] = gas.N[j] / gas.N_tot;
-        gas.X0[j] = gas.N[j];
-    }
-
-    // gas.up = 0.0;
-    // for (int j = 0; j < NS; ++j) {
-    //     gas.up += gas.N[j] * (gas.U0_RT[j] * gcon * gas.T + gas.species[j].href);
-    // }
-
     compute_mixture_properties();
     compute_derivativesCFD();
 
@@ -392,11 +373,6 @@ inline void CESolver::compute_equilibrium_TP(double T, double P) {
         iteration++;
     }
 
-    for (int j = 0; j < NS; ++j) {
-        gas.X[j] = gas.N[j] / gas.N_tot;
-        gas.X0[j] = gas.N[j];
-    }
-
     compute_mixture_properties();
     gas.rho = gas.p / (gas.R * gas.T);
     gas.V = 1.0 / gas.rho;
@@ -415,7 +391,6 @@ inline void CESolver::compute_equilibrium_HP(double H, double P) {
 inline void CESolver::compute_equilibrium_SP(double S, double P) {
     cout << "Not made yet" << endl;
 }
-
 
 inline void CESolver::NASA_fits() {
 
@@ -488,21 +463,31 @@ inline void CESolver::NASA_fits() {
 
 // Compute molecular weights, gas constant, mass fractions
 inline void CESolver::compute_mixture_properties() {
+
+    gas.N_tot = 0.0;
+    for (int j = 0; j < NS; ++j)
+        gas.N_tot += gas.N[j];
+
+    for (int j = 0; j < NS; ++j) {
+        gas.X[j] = gas.N[j] / gas.N_tot;
+        gas.X0[j] = gas.N[j];
+    }
+
     gas.MW = 0.0;
     for (int i = 0; i < NS; ++i) {
             gas.MW += gas.X[i] * gas.species[i].mw;
     }
 
     gas.R = gcon * gas.N_tot;
-    for (int i = 0; i < NS; ++i) {
-            gas.Y[i] = (gas.X[i] * gas.species[i].mw) / gas.MW;
+    for (int j = 0; j< NS; ++j) {
+            gas.Y[j] = (gas.X[j] * gas.species[j].mw) / gas.MW;
     }
 }
 
 // Convergence checker
 inline bool CESolver::check_convergence(double* dlnj, double& dln, double& dlnt) {
 
-    double sum = 0.0, check, tol = 0.5e-16;
+    double sum = 0.0, check, tol = 0.5e-5;
 
     for (int j = 0; j < NS; ++j)
         sum += gas.N[j];

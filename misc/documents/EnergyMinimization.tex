@@ -322,8 +322,6 @@ Giving:
     \\ \frac{\partial f_5}{\partial [\ln \mathcal{N}]} \Delta\ln \mathcal{N} &= \frac{\partial f_5}{\partial [\pi_i]} \pi_i = \frac{\partial f_5}{\partial [\pi_q]} \pi_q = 0
 \end{align}
 
-Giving:
-
 \begin{equation*}
     \boxed{\sum_{j=1}^\text{NS} \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T} \Delta \ln \mathcal{N}_j +  \sum_{j=1}^\text{NS} \mathcal{N}_j \frac{c_{p,j}^\circ}{\hat{R}} \Delta \ln T = \frac{h' - h_0'}{\hat{R}T}}
 \end{equation*}
@@ -335,8 +333,6 @@ Giving:
     \\ \frac{\partial f_6}{\partial [\ln T]} &= \sum_{j=1}^\text{NS} \mathcal{N}_j \frac{c_{p,j}^\circ}{\hat{R}} \Delta \ln T
     \\ \frac{\partial f_6}{\partial [\ln \mathcal{N}]} \Delta\ln \mathcal{N} &= \frac{\partial f_6}{\partial [\pi_i]} \pi_i = \frac{\partial f_6}{\partial [\pi_q]} \pi_q = 0
 \end{align}
-
-Giving
 
 \begin{equation*}
     \boxed{\sum_{j=1}^\text{NS} \mathcal{N}_j \frac{S_j}{\hat{R}} \Delta \ln \mathcal{N}_j + \sum_{j=1}^\text{NS} \mathcal{N}_j \frac{c_{p,j}^\circ}{\hat{R}} \Delta \ln T = \frac{s_0' - s'}{\hat{R}} + \mathcal{N} - \sum_{j=1}^\text{NS} \mathcal{N}_j }
@@ -515,8 +511,6 @@ Next, we take the derivatives of $f_2$:
     \\ \frac{\partial f_2}{\partial [\ln T]} \Delta \ln T &= \frac{\partial f_2}{\partial \pi_i} \pi_i = \frac{\partial f_2}{\partial \pi_q} \pi_q = 0
 \end{align} 
 
-Which gives:
-
 \begin{equation*}
     \boxed{ \sum_{j=1}^\text{NS}\mathcal{N}_j a_{ij} \Delta \ln \mathcal{N}_j = b_i^\circ - \sum_{j=1}^\text{NS} a_{ij} \mathcal{N}_j}
 \end{equation*}
@@ -531,8 +525,6 @@ For $f_3$ we get:
     \frac{\partial f_3}{\partial [\ln \mathcal{N}_j]} \Delta \ln \mathcal{N}_j &= \mathcal{N}_j q_j \Delta \ln \mathcal{N}_j
     \\ \frac{\partial f_3}{\partial [\ln T]} \Delta \ln T &= \frac{\partial f_3}{\partial \pi_i} \pi_i = \frac{\partial f_3}{\partial \pi_q} \pi_q = 0
 \end{align} 
-
-Which gives only one equation:
 
 \begin{equation*}
     \boxed{ \sum_{j=1}^\text{NS}\mathcal{N}_j q_j \Delta \ln \mathcal{N}_j = -\sum_{j=1}^\text{NS} q_j \mathcal{N}_j}
@@ -631,7 +623,7 @@ By substituting this into equations [\ref{Hdpi}] - [\ref{HdlnTS}], we can shrink
 \end{multline}
 
 
-There will be NE number of equations $\ref{redH1}$, and one of $\ref{redH2}$ if charge is added, and one of $\ref{redH3}/\ref{redH4}$ depending on which one you made need.
+There will be NE number of equations [$\ref{redH1}$], and one of [$\ref{redH2}$] if charge is added, and one of $\ref{redH3}/\ref{redH4}$ depending on which one you made need.
 \vspace{5mm}
 \\ The equations are colored according to when they are needed. \textcolor{red}{Red coloring} denotes terms that arise from the elemental constraint condition. These are included no matter what. \textcolor{blue}{Blue} denotes terms that are added when you include the charge constraint. \textcolor{violet}{Violet} terms are added for both UV and SV constraints. \textcolor{orange}{orange} and \textcolor{teal}{teal} are the rows added for either internal energy or entropy constraints, respectively.
 
@@ -762,7 +754,7 @@ Currently, this code is focused on Gibbs minimization holding TP constant, and H
 \subsection{Overview}
 The code uses a class named \verb|CESolver| to run the minimization process. Most of the functionality uses private-member functions which make use of class member variables so that no inputs to functions are required. Of course, any function that needs to be accessed outside of the library is a public-member function. A separate file names \verb|functions.h| contains two namespaces for Gibbs and Helmholtz energy minimization procedures, namely for computing the chemical potential and filling the Jacobian and RHS for the Newton solver, since they are done differently in each case. 
 \vspace{5mm}
-\\In order to run the minimization, you need to first create a few objects. First, you need to create an instance of the \verb|mix| type. This contains vectors of size NS of a type called \verb|SpeciesInfo|. \verb|SpeciesInfo| contains all the data that is read in from the NASA thermodynamic table for a single species. Therefore, \verb|mix| contains a vector of this type to easily access. \verb|mix| contains all mixture properties, and also the current solution for $\mathcal{N}_j$, and other vectors such as the stoichiometric coefficients. Everything that \verb|SpeciesInfo| and \verb|mix| contains can be found in the header file \verb|thermoObjs.h|. There are only a couple of other \verb|CESolver| member variables besides the main \verb|mix| type, but they are mostly just sizes of the Jacobian and RHS vectors, sizes of species list, element list, etc. 
+\\In order to run the minimization you need to create a few objects. First, you need to create an instance of the \verb|mix| type. This contains vectors of size NS of a type called \verb|SpeciesInfo|. \verb|SpeciesInfo| contains all the data that is read in from the NASA thermodynamic table for a single species. Therefore, \verb|mix| contains a vector of this type to easily access. \verb|mix| contains all mixture properties, and also the current solution for $\mathcal{N}_j$, and other vectors such as the stoichiometric coefficients. Everything that \verb|SpeciesInfo| and \verb|mix| contains can be found in the header file \verb|thermoObjs.h|. There are only a couple of other \verb|CESolver| member variables besides the main \verb|mix| type, but they are mostly just sizes of the Jacobian and RHS vectors, sizes of species list, element list, etc. 
 \vspace{5mm}
 \\ You can instantiate a gas mixture using one of two functions. \verb|mix gas = common_mixture(GasType::air11)| is an example of the function call to create a \verb|mix| using the enum class \verb|GasType::|, which holds commonly used gas mixtures. Current common mixtures are:
 
@@ -772,9 +764,10 @@ The code uses a class named \verb|CESolver| to run the minimization process. Mos
     \item \verb|GasType::AIR11| - contains $N_2$, $O_2$, $NO$, $N$, $O$, $N_2^+$, $O_2^+$, $NO^+$, $N^+$, $O^+$, $e^-$.
     \item \verb|GasType::AIR11_AR| - contains $N_2$, $O_2$, $NO$, $N$, $O$, $Ar$, $Ar^+$, $NO^+$, $N^+$, $O^+$, $e^-$.
     \item \verb|GasType::AIR13| - contains $N_2$, $O_2$, $NO$, $N$, $O$, $Ar$, $Ar^+$, $N_2^+$, $O_2^+$, $NO^+$, $N^+$, $O^+$, $e^-$.
+    \item verb|GasType::MARS8| - contains $CO_2$, $N_2$, $O_2$, $CO$, $O$, $C$, $NO$, $N$.
 \end{itemize}
 
-For creation of your own mixture, you must define three vectors. The first is a vector of strings that contains the names of the species in your mixture. The second, a vector of strings that contains the names of the elements in your mixture. The third is a vector of doubles that hold the mass fractions of your elements (in the same ordering as the list of your element names). For example:
+For creating your own mixture, you must define three vectors. The first is a vector of strings that contains the names of the species in your mixture. The second, a vector of strings that contains the names of the elements in your mixture. The third is a vector of doubles that hold the mass fractions of your elements (in the same ordering as the list of your element names). For example:
 \vspace{5mm}
 \\ \verb|vector<string> species = {"N2", "O2", "NO", "N", "O"};|
 \\ \verb|vector<string> elements = {"N", "O"};|
@@ -795,43 +788,121 @@ For creation of your own mixture, you must define three vectors. The first is a 
 
 The constructor function automatically checks to see which constraint type pertains to which energy minimization method, so you do not have to specify if you are minimizing with Gibbs or Helmholtz energies. This can be done inside the \verb|CESolver| class-constructor function call:
 \vspace{5mm}
-\\ \verb|CEsolver CE(gas, ConstraintType::TP)|
+\\ \verb|CEsolver CE(gas, ConstraintType::TP);|
 \vspace{5mm}
 \\ Where gas is our previously created \verb|mix|, and \verb|ConstraintType::TP| means we want to minimize Gibbs free-free energy holding temperature and pressure constant. This command sets up our solver by letting the solver know which equations need to be used (are ions present, do we need to solve for temperature, which temperature minimization equation are we using). Once the above is known, it creates a pointer to a function that uses the correct minimization function. Because of the pointer, you can just call
 \vspace{5mm}
-\verb|compute_equilibrium(1000.0, 101325.0)| 
+\\ \verb|compute_equilibrium(1000.0, 101325.0);| 
 \vspace{5mm} 
-\\ The inputs are arranged in the order of the \verb|ConstraintType::| that you put into the \verb|CESolver| constructor. Since we used TP, the above will set T = 1000.0 K, and P = 1013125.0 Pa. This function is called for every constraint type you use except for \verb|ContraintType::CFD|, which will force you to call \verb|CFD_equilibrium(e, rho)| instead of the universal \verb|compute_equilibrium()| function.
+\\ The inputs are arranged in the order of the \verb|ConstraintType::| that you put into the \verb|CESolver| constructor. Since we used TP, the above will set T = 1000.0 K, and P = 1013125.0 Pa. This function is called for every constraint type you use except for \verb|ContraintType::CFD|, which will force you to call \verb|CFD_equilibrium(e, rho)| instead of the universal \verb|compute_equilibrium()| function.  In fact, no function pointer is created, so the code should crash if you try to use the universal function instead of the CFD specific one.
 \vspace{5mm}
 
 \subsection{Function details}
 
 \subsubsection{Constructor function}
 
-The constructor function, \verb|CESolver(mix, ConstraintType::)|, checks the \verb|mix| object and constraint type to create the function pointer to the correct minimization function as well as create the sizes of the Newton-Raphson method solver. It does so through checking and changing certain booleans. For example, if the mixture has ionic species present, the \verb|mix| boolean \verb|HAS_IONS| is flagged as true. The \verb|ConstraintType::|  will set the \verb|mix| boolean \verb|NEEDS_T| to true or false depending on the constraint. Then, the number of equation that need to be solver for is \verb|J_SIZE = NS + gas.HAS_IONS + gas.NEEDS_T|.
+The constructor function, \verb|CESolver(mix, ConstraintType::)|, checks the \verb|mix| object and constraint type to create the function pointer to the correct minimization function as well as create the sizes of the Newton-Raphson method solver. It does so through checking and changing certain booleans. For example, if the mixture has ionic species present, the \verb|mix| boolean \verb|HAS_IONS| is flagged as true. The \verb|ConstraintType::|  will set the \verb|mix| boolean \verb|NEEDS_T| to true or false depending on the constraint. Then, the number of equation that need to be solver for is \verb|J_SIZE = NS + gas.HAS_IONS + gas.NEEDS_T| (+1 if using Gibbs minimization).
 
-\subsubsection{compute\_equilibriumXY() functions}
+\subsubsection{compute\_equilibriumXY()}
 
 There are a number of these functions at the moment for each separate constraint. Unfortunately, each minimization function is a little different, so thought will need to be put into a method to combine everything into one function to reduce the amount of code duplication. 
 \vspace{5mm}
-This function takes
+\\ This function type takes in two variables that correspond to its constraint type. It then initializes the solution variables with the initial condition $\mathcal{N} = 0.1$, $\mathcal{N}_j = \mathcal{N} / \text{NS}$, or takes the previous solution's $\mathcal{N}_j$'s if possible. Temperature is either initialized as $T = 3800$ K, or the last solution's temperature. 
+\vspace{5mm}
+\\ If temperature is solved for, the \verb|NASA_fits()| function is called for within the convergence loop, otherwise it is called before it. Inside the convergence loop, namespace functions depending on the energy type are used to fill the Jacobian and RHS vector. An example combination is:
+
+\begin{verbatim}
+    gibbs::form_elemental(J, F, gas);
+    gibbs::form_H(J, F, gas);
+    if (gas.HAS_IONS) 
+        gibbs::form_charge(J, F, gas);
+\end{verbatim}
+
+Once the system is formed, a LU matrix solver is called to compute $Ax = B$. With the solution, we recover our $\Delta \ln \mathcal{N}_j$. The damping coefficient, $\epsilon$, is then computed based on this update and then we solve for $\mathcal{N}_j$. The convergence is then checked and if we are within our tolerance, we exit the loop and compute mixture properties and derivatives. 
 
 \subsubsection{NASA\_fits()}
+This function computes the NASA polynomials that are used in the minimization function. It first finds the temperature range to select the correct coefficients, then it creates an array of temperature values to be used in the calculatation. It computes $H^\circ/\hat{R}T$, $U^\circ/\hat{R}T$, $S^\circ/\hat{R}$, $c_p^\circ/\hat{R}$, and $\mu^\circ/\hat{R}T$ using:
 
+\begin{multline}
+    \frac{c_p^\circ(T)}{\hat{R}} = a_1 T^{-2} + a_2 T^{-1} + a_3 + a_4 T + a_5 T^2 + a_6 T^3 + a_7 T^4
+\end{multline}
+\begin{multline}
+    \\ \frac{H(T)^\circ}{\hat{R}T} = -a_1 T^{-2} + a_2 \ln T / T + a_3 + a_4 T / 2 + a_5 T^2 / 3 
+    \\ + a_6 T^3 / 4 + a_7 T^4 / 5 + b_1 / T
+\end{multline}
+\begin{multline}
+    \\ \frac{S(T)^\circ}{\hat{R}} = -a_1 T^{-2} / 2 - a_2 T ^ {-1} + a_3 \ln T + a_4 T + a_5 T^2 / 2 
+    \\ + a_6 T^3 / 3 + a_7 T^4 / 4 + b_2
+\end{multline}
+\begin{equation}
+    \frac{\mu^\circ}{\hat{R}T} = \frac{H^\circ}{\hat{R}T} - \frac{S^\circ}{\hat{R}}
+\end{equation}
+\begin{equation}
+    \frac{U(T)^\circ}{\hat{R}T} = \frac{H(T)^\circ}{\hat{R}T} - 1
+\end{equation}
+\begin{equation}
+    \frac{c_v^\circ(T)}{\hat{R}} = \frac{c_p^\circ(T)}{\hat{R}} - 1
+\end{equation}
 \subsubsection{Namespace functions}
+The \verb|helm::| and \verb|gibbs::| namespace functions are designed to fill their respective parts of the Jacobian and RHS vector (F) in a very modular way. Very few if statements are used. They all have roughly the same form, and fill the reduced Gibbs/Helmholtz equations sums in an efficient manner. Two commonly named functions are \verb|form_elemental(J, F, gas)| and \verb|form_charge(J, F, gas)|. These functions go through and sum up terms that are needed and place them in their respective entries. Since the elemental constraint it called in every constraint type, there are no \verb|if| statements inside of it. Since many times the charge constraint is used without a temperature constraint, there is no if statement inside \verb|form_charge()| either. Inside the temperature row functions, such as \verb|helm::form_U|, an \verb|if| statement is used to check is the charge constraint is being enforced. By the coloring in the reduced equations, you can see why the \verb|if| function is needed. The temperature rows have a charge term in it, so it checks is \verb|gas.HAS_IONS| is true to see if it needs to add an entry into that row / column.
+\newpage
+An example of this shown in \verb|helm::form_charge()|:
+
+\begin{verbatim}
+if (gas.HAS_IONS) {
+    sum = 0.0;
+    for (int j = 0; j < NS; ++j) {
+        sum += gas.species[j].q * gas.N[j] * gas.U0_RT[j];
+    }  
+
+    J[NE * J_SIZE + NE + 1] = sum;          // Charge row
+    J[(J_SIZE - 1) * J_SIZE + NE] = sum;    // ln(T) row
+}
+\end{verbatim}
+
+After checking the boolean, it computes its sum term. Since the Jacobian is already sized appropriately from the constructor function check, it can dump the charge term needed into its entries.
 
 \subsubsection{compute\_mixture\_properties()}
+    This function calculates the mixture molecular weight ($\mathcal{M}$), specific gas constant ($R$), and molar/mass fractions ($X$, $Y$) using the following equations:
 
-\subsubsection{compute\_derivatives()}
+    \begin{align}
+        X_j &= \mathcal{N}_j / \mathcal{N}
+        \\ \mathcal{M} &= \sum_j^\text{NS} X_j \mathcal{M}_j
+        \\ R &= \mathcal{N} \hat{R}
+        \\ Y_j &= (X_j \mathcal{M}_j) / \mathcal{M}
+    \end{align}
 
-\subsubsection{compute\_derivativesCFD()}
+\subsubsection{compute\_derivatives() / compute\_derivativesCFD()}
 
 \subsubsection{check\_convergence()}
 
+    This function checks if the simulation has converged within its tolerance. Its start with a boolean set to false, and then each check will return false if it is not converged. At the end of the function, if it has passed all checks, it returns true. The tolerance checks are:
+
+    \begin{enumerate}
+        \item $\mathcal{N}_j |\Delta \ln \mathcal{N}_j| / \sum_j \mathcal{N}_j \leq 0.5 \cdot 10^{-5}$ 
+        \item $\mathcal{N} |\Delta \ln \mathcal{N}| / \sum_j \mathcal{N}_j \leq 0.5 \cdot 10^{-5}$
+        \item $|\Delta \ln T| \leq 10^{-4}$
+    \end{enumerate}
+
 \subsubsection{compute\_damping()}
 
+The damping parameter $\epsilon$ is calculated in this fucntion as followed. First, $\lambda_1$ is defined as:
 
+\begin{equation}
+    \lambda_1 = \frac{2}{\text{max}(5|\Delta \ln T|, 5|\Delta \ln \mathcal{N}|, |\Delta \ln \mathcal{N}_j)}
+\end{equation}
 
+If $\ln (\mathcal{N}_j / \mathcal{N}) \leq -\ln(10^{-8})$ and $\Delta \ln \mathcal{N}_j \geq 0$, then we create $\lambda_2$ for that species:
+
+\begin{equation}
+    \lambda_2 = \text{min} \left| \frac{-\ln \frac{\mathcal{N}_j}{\mathcal{N}} - 9.2103404}{\Delta \ln \mathcal{N}_j - \Delta \ln \mathcal{N}} \right|
+\end{equation}
+
+$\epsilon$ is then found as min(1, $\lambda_1$, $\lambda_2$). $\mathcal{N}_j$ is then calculated as:
+
+\begin{equation}
+    \mathcal{N}_j^{k + 1} = \mathcal{N}_j^k \exp (\epsilon \Delta \ln \mathcal{N}_j)
+\end{equation}
 
 \end{flushleft}
 \end{document}
