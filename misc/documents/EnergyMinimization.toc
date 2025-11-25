@@ -22,19 +22,21 @@
 \contentsline {subsubsection}{\numberline {1.5.6}Derivatives for $f_4$}{16}{subsubsection.1.5.6}%
 \contentsline {subsubsection}{\numberline {1.5.7}Derivatives for $f_5$}{16}{subsubsection.1.5.7}%
 \contentsline {subsubsection}{\numberline {1.5.8}Reduced Helmholtz Equations}{17}{subsubsection.1.5.8}%
-\contentsline {subsection}{\numberline {1.6}Useful Relationships}{19}{subsection.1.6}%
-\contentsline {section}{\numberline {2}Standard State Chemical Potential Derivatives}{19}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Gibbs Derivative}{19}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Helmholtz Derivative}{20}{subsection.2.2}%
-\contentsline {section}{\numberline {3}Quick code overview}{21}{section.3}%
-\contentsline {section}{\numberline {4}Code specifics}{22}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Overview}{22}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Function details}{25}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Constructor function}{25}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}compute\_equilibriumXY()}{25}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}NASA\_fits()}{26}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4}Namespace functions}{27}{subsubsection.4.2.4}%
-\contentsline {subsubsection}{\numberline {4.2.5}compute\_mixture\_properties()}{28}{subsubsection.4.2.5}%
-\contentsline {subsubsection}{\numberline {4.2.6}compute\_derivatives() / compute\_derivativesCFD()}{28}{subsubsection.4.2.6}%
-\contentsline {subsubsection}{\numberline {4.2.7}check\_convergence()}{28}{subsubsection.4.2.7}%
-\contentsline {subsubsection}{\numberline {4.2.8}compute\_damping()}{29}{subsubsection.4.2.8}%
+\contentsline {subsection}{\numberline {1.6}Thermodynamic Derivatives}{19}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}Base equations and derivatives:}{19}{subsection.1.7}%
+\contentsline {section}{\numberline {2}Standard State Chemical Potential Derivatives}{25}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Useful Relationships}{25}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Gibbs Derivative}{25}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Helmholtz Derivative}{26}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Quick code overview}{27}{section.3}%
+\contentsline {section}{\numberline {4}Code specifics}{28}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Overview}{28}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Function details}{31}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Constructor function}{31}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}compute\_equilibriumXY()}{31}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}NASA\_fits()}{32}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.4}Namespace functions}{33}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.5}compute\_mixture\_properties()}{34}{subsubsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.6}compute\_derivatives() / compute\_derivativesCFD()}{34}{subsubsection.4.2.6}%
+\contentsline {subsubsection}{\numberline {4.2.7}check\_convergence()}{34}{subsubsection.4.2.7}%
+\contentsline {subsubsection}{\numberline {4.2.8}compute\_damping()}{35}{subsubsection.4.2.8}%

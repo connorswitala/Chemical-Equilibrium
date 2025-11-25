@@ -11,6 +11,12 @@
 \usepackage{array}
 \usepackage{booktabs}
 
+% Mini heading
+\newcommand{\miniheading}[1]{%
+  \vspace{0.75\baselineskip}%
+  \noindent\textbf{#1}\par\vspace{0.25\baselineskip}
+}
+
 % Units/symbol helpers (see notes about gensymb below)
 \usepackage{gensymb} % OK; if conflicts with \micro or \perthousand, consider siunitx
 
@@ -627,20 +633,212 @@ There will be NE number of equations [$\ref{redH1}$], and one of [$\ref{redH2}$]
 \vspace{5mm}
 \\ The equations are colored according to when they are needed. \textcolor{red}{Red coloring} denotes terms that arise from the elemental constraint condition. These are included no matter what. \textcolor{blue}{Blue} denotes terms that are added when you include the charge constraint. \textcolor{violet}{Violet} terms are added for both UV and SV constraints. \textcolor{orange}{orange} and \textcolor{teal}{teal} are the rows added for either internal energy or entropy constraints, respectively.
 
-\subsection{Useful Relationships}
+\subsection{Thermodynamic Derivatives}
+
+This section goes over computation of thermodynamic derivatives for finding things like $c_p$, $c_v$, $a$, etc.
+
+\subsection{Base equations and derivatives:}
+
+We start with some important equations that are necessary for future differentiation. The equations shown below are (in order of appearance) the equation of state, the Lagrangian derivatives previously denoted as $f_1$, $f_2$, and $f_3$, and the total mole constraint:
 
 \begin{equation}
-    \frac{c_v^\circ}{\hat{R}} = \frac{c_{p,j}^\circ}{\hat{R}} -1
+    pV = \mathcal{N}RT \label{EOS}
 \end{equation}
 
 \begin{equation}
-    \frac{\mu_j^\circ}{\hat{R}T} = \frac{H_j^\circ}{\hat{R}T} - \frac{S_j^\circ}{\hat{R}} 
+        f_1 = \frac{\mu_j^\circ}{\hat{R}T} + \ln{\frac{p}{p_\text{ref}}} + ln{\mathcal{N}_j} - \ln{\mathcal{N}} - \sum_{i=1}^\text{NE}\pi_ia_{i,j} - \pi_q q_j = 0
 \end{equation}
 
 \begin{equation}
-    \frac{U_j^\circ}{\hat{R}T} = \frac{H_j^\circ}{\hat{R}T} - 1
+    f_2 = \sum_{j=1}^\text{NS} a_{ij} \mathcal{N}_j - b_i = 0
 \end{equation}
 
+\begin{equation}
+    f_3 = \sum_{j=0}^\text{NS}q_j\mathcal{N}_j = 0
+\end{equation}
+
+\begin{equation}
+    f_4 = \sum_j^\text{NS} \mathcal{N}_j - \mathcal{N} = 0
+\end{equation}
+
+Taking the natural log of each side of Eq. [\ref{EOS}] gives:
+
+\begin{equation}
+    \ln V = \ln \mathcal{N} + \ln R + \ln T - \ln p
+\end{equation}
+
+Certain important derivatives can be found by differentiating this equation wrt [$\ln p$] holding $T$ constant, or [$\ln T$] holding $p$ constant:
+
+\begin{subequations}
+    \begin{align}
+        \left.\frac{\partial \ln V}{\partial \ln T} \right|_p &= 1 + \left.\frac{\partial \ln \mathcal{N}}{\partial \ln T}\right|_p
+        \\ \left.\frac{\partial \ln V}{\partial \ln p} \right|_T &= \left.\frac{\partial \ln \mathcal{N}}{\partial \ln p}\right|_T - 1
+    \end{align}    
+\end{subequations}
+
+A third fundemental equation is that of the specific heat $c_p$. Specific terms will be derived later, but it has the form:
+
+    \begin{equation}
+\frac{c_{p,e}}{\hat{R}} = \sum_{j=1}^\text{NS} \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T} \left( \frac{\partial \ln \mathcal{N}_j}{\partial \ln T} \right)_p + \sum_{j=1}^\text{NS} \mathcal{N}_j \frac{c_{p,j}^\circ}{\hat{R}}
+\end{equation}
+
+Expanding for the $\ln \mathcal{N}_j$ derivative (seen below) in yields:
+
+\begin{multline}
+\frac{c_{p,e}}{\hat{R}} = \sum_{i=1}^\text{NE} \left[ \sum_{j=1}^\text{NS} a_{ij} \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T} \right] \left( \frac{\partial \pi_i}{\partial \ln T} \right)_p + \left[ \sum_{j=1}^\text{NS} \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T} \right] \left( \frac{\partial \ln \mathcal{N}}{\partial \ln T} \right)_p \\ \textcolor{blue}{+ \left[\sum_{j=1}^\text{NS} q_j \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T} \right] \left( \frac{\partial \pi_q}{\partial \ln T} \right)_p} + \sum_{j=1}^\text{NS} \mathcal{N}_j \left( \frac{H_j^\circ}{\hat{R}T} \right)^2 + \sum_{j=1}^\text{NS} \mathcal{N}_j \frac{c_{p,j}^\circ}{\hat{R}}
+\end{multline}
+
+Where the blue term is only used if ionization is present. These three derivatives are the core derivatives for the use of the \textit{Bridgman tables}. All thermodynamic derivatives can be formed with the two logarithmic derivatives and $c_p$.
+
+\miniheading{Notes on derivatives and Bridgmann tables}
+
+An extremely important relationship is found between logarithmic derivatives and linear derivatives. We first start with the chain rule of differentiation:
+
+\begin{equation}
+    \frac{\partial \ln x}{\partial \ln y} = \frac{\partial (\ln x)}{\partial x} \frac{\partial x}{\partial y} \frac{\partial y}{\partial (\ln y)}
+\end{equation}
+
+Since the first dervative on the RHS comes out to $1/x$, and the third dervative is just $y$, this gives:
+
+\begin{equation}
+    \frac{\partial \ln x}{\partial \ln y} = \frac{y}{x} \frac{\partial x}{\partial y}
+\end{equation}
+
+This identity can be used alongside the \textit{Bridgman tables}, which will be used excessively in the next few sections. A copy of the Bridgman tables is contained in the \verb|documents| directory of this repository. We can start with an example, and then future derivatives will follow the same procedure, but will not be detailed.
+\vspace{5mm}
+\\ The speed of sound can be expressed as:
+
+\begin{equation}
+    a^2 = \left( \frac{\partial p}{\partial \rho} \right)_S = \frac{p}{\rho} \left( \frac{\partial \ln p}{\partial \ln \rho} \right)_s = -\frac{p}{\rho} \left( \frac{\partial \ln p}{\partial \ln V} \right)_S
+\end{equation}
+
+We ignore the fraction coefficient and just put the derivative into Bridgman form as:
+
+\begin{equation}
+    \left(\frac{\partial \ln p}{\partial \ln V}\right)_S = \frac{V}{p} \frac{(\partial p)_S}{(\partial V)_S}
+\end{equation}
+
+The Bridgmann tables give:
+
+\begin{equation}
+    (\partial p)_S = -(\partial S)_p = -\frac{c_p}{T}
+\end{equation}
+
+\begin{equation}
+    (\partial V)_S = -(\partial S)_V = \frac{1}{T} \left[c_p \left.\frac{\partial V}{\partial p}\right|_T + T \left( \frac{\partial V}{\partial T}\right)_{p}^{2} \right]
+\end{equation}
+
+Putting the derivatives inside the second equation into logarithmic form gives:
+
+\begin{equation}
+        (\partial V)_S = -\frac{1}{T} \left[\frac{c_p V}{P} \left(\frac{\partial \ln V}{\partial \ln p}\right)_T + \frac{V^2}{T} \left( \frac{\partial \ln V}{\partial \ln T}\right)_{p}^{2} \right]
+\end{equation}
+
+Therefore, the final result for the derivative is:
+
+\begin{equation}
+    \left( \frac{\partial \ln p}{\partial \ln V} \right)_S = \frac{c_p}{c_p \left(\frac{\partial \ln V}{\partial \ln p}\right)_T + \frac{PV}{T} \left( \frac{\partial \ln V}{\partial \ln T} \right)_p^2}
+\end{equation}
+
+Which is exactly the same result given in Gordon and Mcbride. As you can see, this derivative uses the three fundemental derivatives derived in the previous section. Therefore, we need to solve for these three derivatives first in order to find speed of sound or other derivatives needed for CFD.
+
+
+\miniheading{Temperature derivatives and $c_p$}
+We can now go through equations $f_1 - f_4$ and take derivatives wrt $[\ln T$] holding $p$ constant:
+
+\begin{multline}
+    \left[\frac{\partial f_1}{\partial \ln T}\right]_p = \left[\frac{\partial \ln \mathcal{N}_j}{\partial \ln T} \right]_p -\left[\frac{\partial \ln \mathcal{N}}{\partial \ln T} \right]_p \\- \sum_{i=1}^\text{NE} a_{ij} \left[\frac{\partial \pi_i}{\partial \ln T} \right]_p - q_j \left[ \frac{\partial \pi_q}{\partial \ln T} \right]_p = \frac{H_j^\circ}{\hat{R}T} \label{dlnjdlnt}
+\end{multline}
+
+\begin{equation}
+\left[\frac{\partial f_2}{\partial \ln T}\right]_p = \sum_{j=1}^\text{NS} a_{ij} \mathcal{N}_j \left[ \frac{\partial \ln \mathcal{N}_j}{\partial \ln T} \right]_p = 0 
+\end{equation}
+
+\begin{equation}
+    \left[\frac{\partial f_3}{\partial \ln T}\right]_p = \sum_j^\text{NS} q_j \mathcal{N}_j \left[ \frac{\partial \ln \mathcal{N}_j}{\partial \ln T} \right]_p = 0 
+\end{equation}
+
+\begin{equation}
+    \sum_j^\text{NS} \mathcal{N}_j \left[ \frac{\partial \ln \mathcal{N}_j}{\partial \ln T} \right]_p - \mathcal{N} \left[ \frac{\partial \ln \mathcal{N}}{\partial \ln T} \right]_p = 0
+\end{equation}
+
+This system of equations allows us to solve for the terms in brackets which are needed to recover our three fundemental derivatives. However, as before, we look to create a reduced set of equations. We do so by solving Eq. [\ref{dlnjdlnt}] for $\partial \ln \mathcal{N}_j / \partial \ln T |_p$ and substituting this result into the rest of the equations. Since the majority of the terms are always used, only the ionization term is added if necessary, so it is colored blue to show this.
+
+\begin{equation}
+\left[\frac{\partial \ln \mathcal{N}_j}{\partial \ln T} \right]_p = \left[\frac{\partial \ln \mathcal{N}}{\partial \ln T} \right]_p + \sum_{i=1}^\text{NE} a_{ij} \left[\frac{\partial \pi_i}{\partial \ln T} \right]_p \textcolor{blue}{+ q_j \left[ \frac{\partial \pi_q}{\partial \ln T} \right]_p} + \frac{H_j^\circ}{\hat{R}T}
+\end{equation}
+
+The resulting reduced equations are then:
+
+\begin{multline}
+    \sum_{i=1}^\text{NE} \left[ \sum_{j=1}^\text{NS} a_{kj} a_{ij} \mathcal{N}_j \right] \left( \frac{\partial \pi_i}{\partial \ln T} \right)_p + \left[\sum_{j=1}^\text{NS} a_{kj} \mathcal{N}_j \right] \left( \frac{\partial \ln \mathcal{N}}{\partial \ln T} \right)_p \\ \textcolor{blue}{+ \left[ \sum_{j=1} a_{kj} q_j \right] \left( \frac{\partial \pi_q}{\partial \ln T} \right)_p} = -\sum_{j=1}^\text{NS} a_{kj} \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T}
+\end{multline}
+
+\begin{multline}
+    \textcolor{blue}{\sum_{i=1}^\text{NE} \left[ \sum_{j=1}^\text{NS} a_{ij} q_j \mathcal{N}_j \right] \left( \frac{\partial \pi_i}{\partial \ln T} \right)_p = \left[ \sum_{j=1}^\text{NS} q_j \mathcal{N}_j \right] \left( \frac{\partial \ln \mathcal{N}}{\partial \ln T} \right)_p} \\ \textcolor{blue}{+ \left[ \sum_{j=1}^\text{NS} q_j^2 \mathcal{N}_j \right] \left( \frac{\partial \pi_q}{\partial \ln T} \right)_p = - \sum_{j=1}^\text{NS} q_j \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T}}
+\end{multline}
+
+\begin{multline}
+\sum_{i=1}^\text{NE} \left[ \sum_{j=1}^\text{NS} a_{ij} \mathcal{N}_j \right] \left( \frac{\partial \pi_i}{\partial \ln T} \right)_p \textcolor{blue}{+ \left[ \sum_{j=1}^\text{NS} q_j \mathcal{N}_j \right] \left( \frac{\partial \pi_q}{\partial \ln T} \right)_p} = -\sum_{j=1}^\text{NS} \mathcal{N}_j \frac{H_j^\circ}{\hat{R}T}
+\end{multline}
+
+Since this is done after the Newton solve, an iterative procedure is not used. This also gets rid of a term inside the final equation, since $\sum_{j=1}^\text{NS} \mathcal{N}_j - \mathcal{N} $ is 0. There will be NE number of the first equation, and 1 of the other two equations. From our Newton iteration to solve for $\mathcal{N}_j$, we can assume that the difference between the penultimate and final iterations are negligible, so we can actually use a number of terms from the original Jacobian that has already been set up. We also dont even need to recover the $\mathcal{N}_j$ derivative wrt $\ln T$, we can just plug those results directly into the above equation for the specific heat.
+
+
+\miniheading{Pressure derivatives}
+We now look at the derivatives of the functions $f_i$ wrt $\ln p$ holding $T$ constant. This gives the following unreduced system:
+
+\begin{equation}
+\left[\frac{\partial \ln \mathcal{N}_j}{\partial \ln p}\right]_T - \left[ \frac{\partial \ln \mathcal{N}}{\partial \ln p} \right]_T - \sum_{i=1}^\text{NE} a_{ij} \left[ \frac{\partial \pi_i}{\partial \ln p} \right]_T - q_j \left[ \frac{\partial \pi_q}{\partial \ln p} \right]_T = -1 \label{dlnjdlnp}
+\end{equation}
+
+\begin{equation}
+    \sum_{j=1}^\text{NS} a_{ij} \mathcal{N}_j \left[ \frac{\partial \ln \mathcal{N}_j}{\partial \ln p} \right]_T = 0 
+\end{equation}
+
+\begin{equation}
+\sum_{j=1}^\text{NS} q_j \mathcal{N}_j \left[ \frac{\partial \ln \mathcal{N}_j}{\partial \ln p} \right]_T = 0 
+\end{equation}
+
+\begin{equation}
+\sum_j^\text{NS} \mathcal{N}_j \left[ \frac{\partial \ln \mathcal{N}_j}{\partial \ln p} \right]_T - \mathcal{N} \left[ \frac{\partial \ln \mathcal{N}}{\partial \ln p} \right]_T = 0
+\end{equation}
+
+We then solve Eq. [\ref{dlnjdlnp}] for the $\mathcal{N}_j$ derivative:
+
+\begin{equation}
+    \left[\frac{\partial \ln \mathcal{N}_j}{\partial \ln p}\right]_T = \left[ \frac{\partial \ln \mathcal{N}}{\partial \ln p} \right]_T + \sum_{i=1}^\text{NE} a_{ij} \left[ \frac{\partial \pi_i}{\partial \ln p} \right]_T \textcolor{blue}{+ q_j \left[ \frac{\partial \pi_q}{\partial \ln p} \right]_T} - 1 
+\end{equation}
+
+Substituting the resultant RHS into the rest of the equations to get the reduced equations:
+
+\begin{multline}
+    \sum_{i=1}^\text{NE} \left[ \sum_{j=1}^\text{NS} a_{kj} a_{ij} \mathcal{N}_j \right] \left( \frac{\partial \pi_i}{\partial \ln p} \right)_T + \left[ \sum_{j=1}^\text{NS} a_{kj} \mathcal{N}_j \right] \left( \frac{\partial \ln \mathcal{N}}{\partial \ln p} \right)_T \\ \textcolor{blue}{+ \left[ \sum_{j=1}^\text{NS} a_{kj} q_j \mathcal{N}_j \right] \left( \frac{\partial \pi_q}{\partial \ln p} \right)_T } = \sum_{j=1}^\text{NS} a_{kj} \mathcal{N}_j
+\end{multline}
+
+\begin{multline}
+    \textcolor{blue}{\sum_{i=1}^\text{NE} \left[ \sum_{j=1}^\text{NS} a_{ij} q_j \mathcal{N}_j \right] \left( \frac{\partial \pi_i}{\partial \ln p} \right)_T + \left[ \sum_{j=1}^\text{NS} q_j \mathcal{N}_j \right] \left( \frac{\partial \mathcal\ln {N}}{\partial \ln p} \right)_T} \\ + \textcolor{blue}{\left[ \sum_{j=1}^\text{NS} q_j^2 \mathcal{}N_j \right] \left( \frac{\partial \pi_q}{\partial \ln p} \right)_T = \sum_{j=1}^\text{NS} q_j \mathcal{N}_j}
+\end{multline}
+
+\begin{equation}
+    \sum_{i=1}^\text{NE} \left[ \sum_{j=1}^\text{NS} a_{ij} \mathcal{N}_j \right] \left( \frac{\partial \pi_i}{\partial \ln p} \right)_T \textcolor{blue}{ + \left[ \sum_{j=1}^\text{NS} q_j \mathcal{N}_j \right] \left( \frac{\partial \pi_q}{\partial \ln p} \right)_T} - \sum_{j=1}^\text{NS} \mathcal{N}_j
+\end{equation}
+
+Solving this system of equations is again, a non-iterative procedure, and we can use many of the previous systems entries to fill it. This makes the most expensive part just the LU solve. We can than find $c_v$ as:
+
+\begin{equation}
+    \frac{c_v}{\hat{R}} = \frac{c_p}{\hat{R}} + \frac{p}{\rho \hat{R} T} \left[ \frac{\left(\left.\frac{\partial \ln V}{\partial \ln T}\right|_p \right)^2}{\left. \frac{\partial \ln V}{\partial \ln p} \right|_T} \right]
+\end{equation}
+
+And then other thermodynamic derivatives as:
+
+\begin{equation}
+    \left. \frac{\partial p}{\partial \rho} \right|_e = \frac{\frac{p}{\rho} \left[ \frac{\partial \ln V}{\partial \ln T} \right]_p - \frac{c_p}{\hat{R}}}{\left[ \frac{\partial \ln V}{\partial \ln T} \right]_p^2 + \frac{c_p}{ \hat{R} }\left[\frac{\partial \ln V}{\partial \ln p}\right]_T}
+\end{equation}
+
+\begin{equation}
+    \left.\frac{\partial T}{\partial \rho} \right|_e = \frac{-\frac{T}{\rho} \left[ \left. \frac{\partial \ln V}{\partial \ln T} \right|_p + \left. \frac{\partial \ln V}{\partial \ln p} \right|_T \right]}{\left[ \frac{\partial \ln V}{\partial \ln T} \right]_p^2 + \frac{c_p}{ \hat{R} }\left[\frac{\partial \ln V}{\partial \ln p}\right]_T}
+\end{equation}
 
 \section{Standard State Chemical Potential Derivatives}
 
@@ -665,6 +863,21 @@ We expand $\mu_j^0 /RT$ as one of the following two equation depending on if we 
     \\ \frac{\mu_j^0}{RT} &= \frac{U_j^0}{RT} - \frac{S_j^0}{R} + 1
     \label{mu0_U}
 \end{align}
+
+\subsection{Useful Relationships}
+
+\begin{equation}
+    \frac{c_v^\circ}{\hat{R}} = \frac{c_{p,j}^\circ}{\hat{R}} -1
+\end{equation}
+
+\begin{equation}
+    \frac{\mu_j^\circ}{\hat{R}T} = \frac{H_j^\circ}{\hat{R}T} - \frac{S_j^\circ}{\hat{R}} 
+\end{equation}
+
+\begin{equation}
+    \frac{U_j^\circ}{\hat{R}T} = \frac{H_j^\circ}{\hat{R}T} - 1
+\end{equation}
+
 
 \subsection{Gibbs Derivative}
 \label{derivativesG}
@@ -873,6 +1086,7 @@ After checking the boolean, it computes its sum term. Since the Jacobian is alre
     \end{align}
 
 \subsubsection{compute\_derivatives() / compute\_derivativesCFD()}
+
 
 \subsubsection{check\_convergence()}
 

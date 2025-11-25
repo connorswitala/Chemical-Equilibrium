@@ -25,12 +25,12 @@ inline string trim(const string& s) {
 }
 
 inline double fortran_to_double(string s) {
-    std::replace(s.begin(), s.end(), 'D', 'E');
-    std::replace(s.begin(), s.end(), 'd', 'e');
+    replace(s.begin(), s.end(), 'D', 'E');
+    replace(s.begin(), s.end(), 'd', 'e');
     try {
-        return std::stod(s);
-    } catch (const std::invalid_argument&) {
-        throw std::runtime_error("Cannot parse numeric value from field '" + s + "'");
+        return stod(s);
+    } catch (const invalid_argument&) {
+        throw runtime_error("Cannot parse numeric value from field '" + s + "'");
     }
 }
 
@@ -47,12 +47,12 @@ inline vector<double> parse_poly_block(const string& line1, const string& line2,
     string block = line1 + " " + line2;
 
     // Match Fortran-style reals like -7.453750000D+02 or 1.234567890E-01
-    std::regex num_re(R"(([+-]?\d+\.\d+(?:[DdEe][+-]\d+)))");
+    regex num_re(R"(([+-]?\d+\.\d+(?:[DdEe][+-]\d+)))");
 
     vector<double> coeffs;
     coeffs.reserve(max_coeffs);
 
-    for (std::sregex_iterator it(block.begin(), block.end(), num_re),
+    for (sregex_iterator it(block.begin(), block.end(), num_re),
                               end;
          it != end; ++it)
     {
@@ -63,21 +63,21 @@ inline vector<double> parse_poly_block(const string& line1, const string& line2,
     }
 
     if ((int)coeffs.size() != max_coeffs) {
-        throw std::runtime_error(
-            "Expected " + std::to_string(max_coeffs) +
-            " polynomial coefficients, got " + std::to_string(coeffs.size()));
+        throw runtime_error(
+            "Expected " + to_string(max_coeffs) +
+            " polynomial coefficients, got " + to_string(coeffs.size()));
     }
 
     return coeffs;
 }
 
-inline SpeciesInfo read_species_info(const std::string& target_name) {
+inline SpeciesInfo read_species_info(const string& target_name) {
 
     string filename = "../misc/files/thermo.inp";
 
-    std::ifstream fin(filename);
+    ifstream fin(filename);
     if (!fin) {
-        throw std::runtime_error("Could not open thermo file: " + filename);
+        throw runtime_error("Could not open thermo file: " + filename);
     }
 
     SpeciesInfo sp{};
@@ -85,15 +85,15 @@ inline SpeciesInfo read_species_info(const std::string& target_name) {
     sp.q    = compute_charge_from_name(target_name);
     sp.poly.clear();
 
-    std::string line;
+    string line;
 
     // ===== 1. Find species header line (e.g. "Ag-" or "e-") =====
     bool found = false;
-    while (std::getline(fin, line)) {
+    while (getline(fin, line)) {
         if (line.size() >= target_name.size() &&
             line.compare(0, target_name.size(), target_name) == 0 &&
             (line.size() == target_name.size() ||
-             std::isspace(static_cast<unsigned char>(line[target_name.size()]))))
+             isspace(static_cast<unsigned char>(line[target_name.size()]))))
         {
             found = true;
             break;
@@ -101,22 +101,22 @@ inline SpeciesInfo read_species_info(const std::string& target_name) {
     }
 
     if (!found) {
-        throw std::runtime_error("Species '" + target_name + "' not found in file.");
+        throw runtime_error("Species '" + target_name + "' not found in file.");
     }
 
     // ===== 2. Next line: MW and Hf(298) at the end =====
-    if (!std::getline(fin, line)) {
-        throw std::runtime_error("Unexpected EOF after species line for " + target_name);
+    if (!getline(fin, line)) {
+        throw runtime_error("Unexpected EOF after species line for " + target_name);
     }
 
     {
-        std::istringstream iss(line);
-        std::vector<std::string> tokens;
-        std::string tok;
+        istringstream iss(line);
+        vector<string> tokens;
+        string tok;
         while (iss >> tok) tokens.push_back(tok);
 
         if (tokens.size() < 2) {
-            throw std::runtime_error("Not enough tokens on MW/Hf line for " + target_name);
+            throw runtime_error("Not enough tokens on MW/Hf line for " + target_name);
         }
 
         sp.hf = fortran_to_double(tokens.back());                 // Hf(298)

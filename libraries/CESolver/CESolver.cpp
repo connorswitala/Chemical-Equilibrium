@@ -118,7 +118,7 @@ void CESolver::CFD_equilibrium(double& e, double& rho) {
         gas.N_tot += gas.N[j];
     }
 
-    // Being iterations
+    // Begin iterations
     while (iteration < maxiter) {
 
         NASA_fits();    // Call NASA fits to update temperature dependant variables
@@ -696,16 +696,4 @@ inline void CESolver::compute_derivatives() {
     gas.dtdr = -gas.T / gas.rho * (dlvdlt + dlvdlp) / deno;
     gas.c = sqrt(gas.N_tot * gcon * gas.T * gammas);
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
