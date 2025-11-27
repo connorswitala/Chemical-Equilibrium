@@ -19,15 +19,16 @@ int main() {
 
     // mix gas = create_mixture(species, elements, initial);
 
-    CESolver CE(gas, ConstraintType::TP);                       // Construct CESolver class for minimization, using TP constraint.
-
-    CE.compute_equilibrium(5000.0, 101325.0);  // Solve for equilibrium at T = 5000.0 K, and P = 101325.0 Pa
+    CESolver CE(gas, ConstraintType::CFD);                       // Construct CESolver class for minimization, using TP constraint.
+    double rho = 1.225;
+    double e = 5e5;
+    CE.CFD_equilibrium(e, rho);  // Solve for equilibrium at T = 5000.0 K, and P = 101325.0 Pa
 
     print_properties(gas);  // Print mixture properties
-    print_NASA_mix(gas);    // Print NASA thermodynamic table data for mixture (used for debugging)
+    // print_NASA_mix(gas);    // Print NASA thermodynamic table data for mixture (used for debugging)
 
-    cout << gas.R << endl;      // Print just mixture specific gas constant
-    cout << gas.Y[0] << endl;   // Print just species [0] mass fraction.
+    // cout << gas.R << endl;      // Print just mixture specific gas constant
+    // cout << gas.Y[0] << endl;   // Print just species [0] mass fraction.
     
     return 0;
 }

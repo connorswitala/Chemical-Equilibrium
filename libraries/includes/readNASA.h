@@ -73,7 +73,7 @@ inline vector<double> parse_poly_block(const string& line1, const string& line2,
 
 inline SpeciesInfo read_species_info(const string& target_name) {
 
-    string filename = "../misc/files/thermo.inp";
+    string filename = "C:/Users/frodo/programs/Chemistry-Solver/misc/files/thermo.inp";
 
     ifstream fin(filename);
     if (!fin) {

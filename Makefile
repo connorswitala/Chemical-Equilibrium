@@ -29,9 +29,11 @@ MIN_TARGET := $(BIN_DIR)/minimize
 TIMING_TARGET := $(BIN_DIR)/timing
 EXAMPLE_TARGET := $(BIN_DIR)/example
 
+# Static library
+LIBCES := $(BUILD_DIR)/libcesolver.a
 
 # ===== Targets =====
-all: $(MIN_TARGET) $(TIMING_TARGET) $(EXAMPLE_TARGET)
+all: $(MIN_TARGET) $(TIMING_TARGET) $(EXAMPLE_TARGET) $(LIBCES)
 
 # Create build directory if missing
 $(BUILD_DIR):
@@ -53,6 +55,11 @@ $(EXAMPLE_OBJ): $(EXAMPLE_SRC) | $(BUILD_DIR)
 $(TIMING_OBJ): $(TIMING_SRC) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Static library
+$(LIBCES): $(MIXES_OBJ) $(SOLVER_OBJ)
+	ar rcs $@ $@
+	ar rcs $@ $(MIXES_OBJ) $(SOLVER_OBJ)
+
 # Link final executable
 $(MIN_TARGET): $(MIXES_OBJ) $(SOLVER_OBJ) $(MIN_OBJ)
 	$(CXX) $(CXXFLAGS) $^ -o $@
@@ -62,6 +69,9 @@ $(EXAMPLE_TARGET): $(MIXES_OBJ) $(SOLVER_OBJ) $(EXAMPLE_OBJ)
 
 $(TIMING_TARGET): $(MIXES_OBJ) $(SOLVER_OBJ) $(TIMING_OBJ)
 	$(CXX) $(CXXFLAGS) $^ -o $@
+
+$(LIBCES): $(MIXES_OBJ) $(SOLVER_OBJ)
+	ar rcs $@ $^
 
 
 # Clean up

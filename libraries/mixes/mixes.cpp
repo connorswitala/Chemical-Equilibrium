@@ -291,7 +291,7 @@ void print_properties(mix& gas) {
         {"Mixture Pressure:",        gas.p, "[Pa]"},
         {"Mixture Internal Energy:", gas.up,"[J/kg]"},
         {"Mixture dpdr:",            gas.dpdr,       ""},
-        {"Mixture dtdr:",            gas.dtdr,       ""}
+        {"Mixture dpde:",            gas.dpde,       ""}
     };
 
     const int labelW = 24;

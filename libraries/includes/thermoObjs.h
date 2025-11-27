@@ -31,7 +31,7 @@ struct mix {
     double R, gamma, cp, cv, MW, c;         // Thermodynamic properties of mixture.    
     double e, rho, T, p, V;                 // Thermodynamic state variables           
     Vector Y, X;                            // Mass and mole fractions.                
-    double dpdr, dtdr;                      // Dericatives wrt rho holding e const     
+    double dpdr, dpde;                      // Dericatives wrt rho holding e const     
     //                                                                                 
     // =================================================================================
 

@@ -105,4 +105,4 @@ This function will display every thermodynamic quantity you may need in `mix gas
 
 ## Documentation
 
-There is scientific documentation on the formulation of the equations being used and in what functions they show up. It is written in Latex and can be found [here](./documents/EnergyMinimization.pdf).
+There is scientific documentation on the formulation of the equations being used and in what functions they show up. It is written in Latex and can be found [here](./misc/documents/EnergyMinimization.pdf).

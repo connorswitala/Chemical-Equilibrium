@@ -8,7 +8,7 @@ Scanning style file c:/texlive/2025/texmf-dist/makeindex/nomencl/nomencl.ist....
    -- Unknown specifier lethead_flag.
 ....done (12 attributes redefined, 3 ignored).
 Scanning input file EnergyMinimization.nlo....done (26 entries accepted, 0 rejected).
-Sorting entries....done (129 comparisons).
+Sorting entries....done (137 comparisons).
 Generating output file EnergyMinimization.nls....done (31 lines written, 0 warnings).
 Output written in EnergyMinimization.nls.
 Transcript written in EnergyMinimization.ilg.

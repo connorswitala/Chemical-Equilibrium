@@ -125,8 +125,10 @@ void CESolver::CFD_equilibrium(double& e, double& rho) {
 
         // Compute u'
         gas.up = 0.0;
+        gas.e_ref = 0.0;
         for (int j = 0; j < NS; ++j) {
             gas.up += gas.N[j] * gas.U0_RT[j];
+            gas.e_ref += gas.N[j] * gas.species[j].href;       
         }
 
         helm::compute_mu(gas);                          // Compute chemical potential
@@ -167,13 +169,8 @@ void CESolver::CFD_equilibrium(double& e, double& rho) {
 
         // Check convergence
         converged = check_convergence(DlnNj.data(), rlntot, DELTA[J_SIZE - 1]);
+        if ((gas.uo - gas.e_ref) / (gcon * gas.T) - gas.up > 1.0e-5) converged = false;
         if (converged) iteration = maxiter;
-    }
-
-    // Get final molar concentrations
-    for (int j = 0; j < NS; ++j) {
-        gas.X[j] = gas.N[j] / gas.N_tot;
-        gas.X0[j] = gas.N[j];
     }
 
     compute_mixture_properties();   // Compute molecular weights 
@@ -487,7 +484,7 @@ inline void CESolver::compute_mixture_properties() {
 // Convergence checker
 inline bool CESolver::check_convergence(double* dlnj, double& dln, double& dlnt) {
 
-    double sum = 0.0, check, tol = 0.5e-5;
+    double sum = 0.0, check, tol = 0.5e-7;
 
     for (int j = 0; j < NS; ++j)
         sum += gas.N[j];
@@ -524,13 +521,13 @@ inline double CESolver::compute_damping(vector<double>& DlnNj, double& dlnN, dou
     return min(1.0, min(lam1, lam2));
 }
 
-// Compute derivatices for A_rho Jacobian
+// Compute derivatives for A_rho Jacobian in CFD
 inline void CESolver::compute_derivativesCFD() {
 
-    int size = NE + 1;
+    int size = NE + 1 + gas.HAS_IONS;
     vector<double> A(size * size, 0.0), RHS(size, 0.0), x(size, 0.0);
-    int offset, idx = NE + gas.HAS_IONS;
-
+    int offset, offset2;
+    int idx = NE + gas.HAS_IONS;
 
     vector<double> an(NE, 0.0);
 
@@ -538,33 +535,65 @@ inline void CESolver::compute_derivativesCFD() {
 
     // ===== Derivatives wrt T =====
     
+    // --- Eq [2.23] rows ---
     for (int k = 0; k < NE; ++k) {
-
         offset = k * size;
 
-        for (int i = 0; i < NE; ++i) {
-            for (int j = 0; j < NS; ++j)
+        // Elemental columns in Eq [2.23] rows
+        for (int i = 0; i < NE; ++i) 
                 A[offset + i] = J[k * J_SIZE + i];
-        }
+        
 
-        for (int j = 0; j < NS; ++j) {
+        // ln(N) columns in Eq [2.23] rows
+        for (int j = 0; j < NS; ++j) 
             an[k] += gas.a[k * NS + j] * gas.N[j];       
-        }
-
+        
         A[offset + NE] = an[k];
+        
+        // RHS of Eq [2.23]
         RHS[k] = -(J[k * J_SIZE + idx] + an[k]);
     }
 
+    // --- Eq [2.24] row ---
+
+    // Elemental columns in Eq [2.24] row
     for (int i = 0; i < NE; ++i) 
         A[NE * size + i] = an[i];
 
+    // RHS in Eq [2.24]
     for (int j = 0; j < NS; ++j)
-        RHS[size - 1] -= gas.N[j] * gas.H0_RT[j];
+        RHS[NE] -= gas.N[j] * gas.H0_RT[j];
+
+    // Charge constraint
+    if (gas.HAS_IONS) {
+
+        for (int k = 0; k < NE; ++k) {
+            offset = k * size + NE + 1; // Charge column in Eq [2.23] rows
+            offset2 = (NE + 1) * size + k; // elemental columns in Eq [2.25] row
+
+            A[offset] = A[offset2] =  J[k * J_SIZE + NE];        
+        }
+
+        offset = NE * size + NE + 1; // Charge column in Eq [2.24] row
+        offset2 = (NE + 1) * size + NE; // ln(N) column in Eq [2.25] row
+
+        sum = 0.0;
+        for (int j = 0; j < NS; ++j)
+            sum += gas.species[j].q * gas.N[j];
+
+        A[offset] = A[offset2] = sum;
+
+        // Charge column in Eq. [2.25] row
+        offset = (NE + 1) * size + NE + 1;
+        A[offset] = J[NE * J_SIZE + NE];
+
+        RHS[size - 1] = -(J[NE * J_SIZE + NE + 1] + sum);
+    }
 
 
     LUSolve(A.data(), RHS.data(), x.data(), size, 1);
 
-    double dlndlt = x[size - 1];
+    double dlndlt = x[NE];
 
     // ===== Compute cp =====
     gas.cp = 0.0;
@@ -579,6 +608,11 @@ inline void CESolver::compute_derivativesCFD() {
 
     for (int j = 0; j < NS; ++j)
         gas.cp += gas.N[j] * gas.H0_RT[j] * (dlndlt + gas.H0_RT[j]);
+    
+    if (gas.HAS_IONS) {
+        for (int j = 0; j < NS; ++j)
+            gas.cp += gas.species[j].q * gas.N[j] * gas.H0_RT[j] * x[size - 1];
+    }
 
     // ===== Derivatives wrt P =====
     
@@ -586,13 +620,16 @@ inline void CESolver::compute_derivativesCFD() {
         RHS[k] = an[k];
     }   
 
-    RHS[size - 1] = 0.0;
+    RHS[NE] = 0.0;
     for (int j = 0; j < NS; ++j)
-        RHS[size - 1] += gas.N[j];
+        RHS[NE] += gas.N[j];
+
+    if (gas.HAS_IONS) 
+        RHS[size - 1] = A[(NE + 1) * size + NE];
 
     LUSolve(A.data(), RHS.data(), x.data(), size, 1);
 
-    double dlvdlp = x[size - 1] - 1.0;
+    double dlvdlp = x[NE] - 1.0; 
     double dlvdlt = 1.0 + dlndlt;
 
     gas.p = gas.rho * gas.N_tot * gcon * gas.T;
@@ -605,54 +642,95 @@ inline void CESolver::compute_derivativesCFD() {
     double deno = dlvdlt * dlvdlt + gas.cp * dlvdlp / gas.R;
 
     gas.dpdr = gas.p / gas.rho * (dlvdlt - gas.cp/gas.R) / deno;
-    gas.dtdr = -gas.T / gas.rho * (dlvdlt + dlvdlp) / deno;
+    gas.dpde = -gas.rho * dlvdlt / deno;
     gas.c = sqrt(gas.N_tot * gcon * gas.T * gammas);
 }
 
-// Compute derivatices for A_rho Jacobian
+// Compute derivatives (for not CFD)
 inline void CESolver::compute_derivatives() {
 
-    int size = NE + 1;
+    int size = NE + 1 + gas.HAS_IONS;
     vector<double> A(size * size, 0.0), RHS(size, 0.0), x(size, 0.0);
-    int offset, idx = NE + gas.HAS_IONS;
+    int offset, offset2;
+    int idx = NE + gas.HAS_IONS;
+
 
     vector<double> an(NE, 0.0);
-    vector<double> anh(NE, 0.0);
 
     double sum = 0.0, sum1 = 0.0;
-    double a;
 
     // ===== Derivatives wrt T =====
     
+    // --- Eq [2.23] rows ---
     for (int k = 0; k < NE; ++k) {
-
         offset = k * size;
 
-        for (int i = 0; i < NE; ++i) {
-            for (int j = 0; j < NS; ++j)
+        // Elemental columns in Eq [2.23] rows
+        for (int i = 0; i < NE; ++i) 
                 A[offset + i] = J[k * J_SIZE + i];
-        }
+        
 
-        for (int j = 0; j < NS; ++j) {
-            a = gas.a[k * NS + j] * gas.N[j];
-            an[k] += a;
-            anh[k] += a * gas.H0_RT[j];
-        }
-
+        // ln(N) columns in Eq [2.23] rows
+        for (int j = 0; j < NS; ++j)
+            an[k] += gas.a[k * NS + j] * gas.N[j];
+        
         A[offset + NE] = an[k];
-        RHS[k] = -anh[k];
+        
+        // RHS of Eq [2.23]
+        RHS[k] = 0.0;
+        for (int j = 0; j < NS; ++j)
+            RHS[k] -= gas.a[k * NS + j] * gas.N[j] * gas.H0_RT[j];
     }
 
+    // --- Eq [2.24] row ---
+
+    // Elemental columns in Eq [2.24] row
     for (int i = 0; i < NE; ++i) 
         A[NE * size + i] = an[i];
 
+    // RHS in Eq [2.24]
     for (int j = 0; j < NS; ++j)
-        RHS[size - 1] -= gas.N[j] * gas.H0_RT[j];
+        RHS[NE] -= gas.N[j] * gas.H0_RT[j];
+
+    // Charge constraint
+    if (gas.HAS_IONS) {
+
+        for (int k = 0; k < NE; ++k) {
+            offset = k * size + NE + 1; // Charge column in Eq [2.23] rows
+            offset2 = (NE + 1) * size + k; // elemental columns in Eq [2.25] row
+
+            sum = 0.0;
+            for (int j = 0; j < NS; ++j)
+                sum += gas.a[k * NS + j] * gas.species[j].q * gas.N[j];
+
+            A[offset] = A[offset2] = sum;        
+        }
+
+        offset = NE * size + NE + 1; // Charge column in Eq [2.24] row
+        offset2 = (NE + 1) * size + NE; // ln(N) column in Eq [2.25] row
+
+        sum = 0.0;
+        for (int j = 0; j < NS; ++j)
+            sum += gas.species[j].q * gas.N[j];
+
+        A[offset] = A[offset2] = sum;
+
+        // Charge column in Eq. [2.25] row
+        offset = (NE + 1) * size + NE + 1;
+        A[offset] = 0.0;
+
+        for (int j = 0; j < NS; ++j)
+            A[offset] += gas.species[j].q * gas.species[j].q * gas.N[j];
+
+        RHS[size - 1] = 0.0;
+        for (int j = 0; j < NS; ++j)
+            RHS[size - 1] -= gas.species[j].q * gas.N[j] * gas.H0_RT[j];
+    }
 
 
     LUSolve(A.data(), RHS.data(), x.data(), size, 1);
 
-    double dlndlt = x[size - 1];
+    double dlndlt = x[NE];
 
     // ===== Compute cp =====
     gas.cp = 0.0;
@@ -661,12 +739,17 @@ inline void CESolver::compute_derivatives() {
         gas.cp += gas.N[j] * gas.CP0_R[j];
 
 
-    for (int i = 0; i < NE; ++i)     
-        gas.cp += anh[i] * x[i];        
-    
+    for (int i = 0; i < NE; ++i) {        
+        gas.cp += (J[i * J_SIZE + idx] + an[i]) * x[i];        
+    }
 
     for (int j = 0; j < NS; ++j)
         gas.cp += gas.N[j] * gas.H0_RT[j] * (dlndlt + gas.H0_RT[j]);
+    
+    if (gas.HAS_IONS) {
+        for (int j = 0; j < NS; ++j)
+            gas.cp += gas.species[j].q * gas.N[j] * gas.H0_RT[j] * x[size - 1];
+    }
 
     // ===== Derivatives wrt P =====
     
@@ -674,13 +757,16 @@ inline void CESolver::compute_derivatives() {
         RHS[k] = an[k];
     }   
 
-    RHS[size - 1] = 0.0;
+    RHS[NE] = 0.0;
     for (int j = 0; j < NS; ++j)
-        RHS[size - 1] += gas.N[j];
+        RHS[NE] += gas.N[j];
+
+    if (gas.HAS_IONS) 
+        RHS[size - 1] = A[(NE + 1) * size + NE];
 
     LUSolve(A.data(), RHS.data(), x.data(), size, 1);
 
-    double dlvdlp = x[size - 1] - 1.0;
+    double dlvdlp = x[NE] - 1.0; 
     double dlvdlt = 1.0 + dlndlt;
 
     gas.p = gas.rho * gas.N_tot * gcon * gas.T;
@@ -693,7 +779,6 @@ inline void CESolver::compute_derivatives() {
     double deno = dlvdlt * dlvdlt + gas.cp * dlvdlp / gas.R;
 
     gas.dpdr = gas.p / gas.rho * (dlvdlt - gas.cp/gas.R) / deno;
-    gas.dtdr = -gas.T / gas.rho * (dlvdlt + dlvdlp) / deno;
+    gas.dpde = -gas.rho * dlvdlt / deno;
     gas.c = sqrt(gas.N_tot * gcon * gas.T * gammas);
 }
-

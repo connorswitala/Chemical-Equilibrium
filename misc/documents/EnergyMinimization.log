@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.4)  25 NOV 2025 12:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.11.4)  25 NOV 2025 20:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -866,213 +866,206 @@ Package hyperref Info: Link coloring ON on input line 59.
  [2] (./EnergyMinimization.nls) [3] [4] [5] [6{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 243.
+(hyperref)                removing `math shift' on input line 242.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 243.
+(hyperref)                removing `subscript' on input line 242.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 243.
+(hyperref)                removing `math shift' on input line 242.
 
 [7]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 284.
+(hyperref)                removing `math shift' on input line 283.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 284.
+(hyperref)                removing `subscript' on input line 283.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 284.
+(hyperref)                removing `math shift' on input line 283.
 
 [8]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 297.
+(hyperref)                removing `math shift' on input line 296.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 297.
+(hyperref)                removing `subscript' on input line 296.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 297.
+(hyperref)                removing `math shift' on input line 296.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 310.
+(hyperref)                removing `math shift' on input line 309.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 310.
+(hyperref)                removing `subscript' on input line 309.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 310.
+(hyperref)                removing `math shift' on input line 309.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 323.
+(hyperref)                removing `math shift' on input line 322.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 323.
+(hyperref)                removing `subscript' on input line 322.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 323.
+(hyperref)                removing `math shift' on input line 322.
 
 [9]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 335.
+(hyperref)                removing `math shift' on input line 334.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 335.
+(hyperref)                removing `subscript' on input line 334.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 335.
+(hyperref)                removing `math shift' on input line 334.
 
 [10]
-Overfull \hbox (56.38524pt too wide) detected at line 381
+Overfull \hbox (56.38524pt too wide) detected at line 380
  []$[]  [][][][][][]$ 
  []
 
 
-Overfull \hbox (22.60739pt too wide) detected at line 387
+Overfull \hbox (22.60739pt too wide) detected at line 386
  []$[]  [][][][][][]$ 
  []
 
 [11]
-Overfull \hbox (28.48227pt too wide) detected at line 393
+Overfull \hbox (28.48227pt too wide) detected at line 392
  []$[]  [][] \OT1/cmr/m/n/10 + [][]$ 
  []
 
 
-Overfull \hbox (11.5194pt too wide) detected at line 405
+Overfull \hbox (11.5194pt too wide) detected at line 404
  []$[][][]$ []  
  []
 
 [12] [13]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 492.
+(hyperref)                removing `math shift' on input line 491.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 492.
+(hyperref)                removing `subscript' on input line 491.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 492.
+(hyperref)                removing `math shift' on input line 491.
 
 [14]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 512.
+(hyperref)                removing `math shift' on input line 511.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 512.
+(hyperref)                removing `subscript' on input line 511.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 512.
+(hyperref)                removing `math shift' on input line 511.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 526.
+(hyperref)                removing `math shift' on input line 525.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 526.
+(hyperref)                removing `subscript' on input line 525.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 526.
+(hyperref)                removing `math shift' on input line 525.
 
 [15]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 540.
+(hyperref)                removing `math shift' on input line 539.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 540.
+(hyperref)                removing `subscript' on input line 539.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 540.
+(hyperref)                removing `math shift' on input line 539.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 561.
+(hyperref)                removing `math shift' on input line 560.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 561.
+(hyperref)                removing `subscript' on input line 560.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 561.
+(hyperref)                removing `math shift' on input line 560.
 
-[16]
-Overfull \hbox (96.22594pt too wide) detected at line 612
-[][][][][][][][][] \OT1/cmr/m/n/10 = [][]
- []
-
-[17]
-Overfull \hbox (43.3137pt too wide) detected at line 617
-[][][][][][][] \OT1/cmr/m/n/10 = [][]
- []
-
-
-Overfull \hbox (29.07626pt too wide) detected at line 623
- []$[]  [][][][][][]$ 
- []
-
-
-Overfull \hbox (16.21806pt too wide) detected at line 629
+[16] [17]
+Overfull \hbox (16.21806pt too wide) detected at line 628
  []$[] \OT1/cmr/m/n/10 + [][]$ []  
  []
 
-[18] [19] [20] [21]
-Overfull \hbox (4.1369pt too wide) detected at line 783
- []$[]   [] [] [][] [][] \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 ^^@ [] N[][]$ [][]  
- []
+[18] [19] [20]
 
-[22] [23] [24] [25] [26] [27] [28] [29] [30] [31]
-Underfull \hbox (badness 1320) detected at line 1041
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 745.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 745.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 745.
+
+[21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32]
+Underfull \hbox (badness 1320) detected at line 1080
  []$[]  [] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 a[]T[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 a[]T[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 a[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 a[]T \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 a[]T[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 a[]T[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 a[]T[]$ [][]  
  []
 
-[32] [33] [34] [35] (./EnergyMinimization.aux)
+[33] [34] [35] [36] (./EnergyMinimization.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-10-24>
  ***********
 Package rerunfilecheck Info: File `EnergyMinimization.out' has not changed.
-(rerunfilecheck)             Checksum: 318AF3B369B8A3E7F329CB013725FC99;7016.
+(rerunfilecheck)             Checksum: 6F59C78D744BA2327F28A2030670CCE4;7794.
  ) 
 Here is how much of TeX's memory you used:
- 27068 strings out of 469475
- 499579 string characters out of 5469240
- 971019 words of memory out of 5000000
- 55033 multiletter control sequences out of 15000+600000
- 630648 words of font info for 51 fonts, out of 8000000 for 9000
+ 27104 strings out of 469475
+ 499944 string characters out of 5469240
+ 971128 words of memory out of 5000000
+ 55050 multiletter control sequences out of 15000+600000
+ 633760 words of font info for 62 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 110i,12n,107p,1268b,751s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on EnergyMinimization.pdf (35 pages, 264744 bytes).
+ 110i,12n,107p,1268b,724s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on EnergyMinimization.pdf (36 pages, 291693 bytes).
 PDF statistics:
- 689 PDF objects out of 1000 (max. 8388607)
- 619 compressed objects within 7 object streams
- 241 named destinations out of 1000 (max. 500000)
- 349 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 737 PDF objects out of 1000 (max. 8388607)
+ 660 compressed objects within 7 object streams
+ 252 named destinations out of 1000 (max. 500000)
+ 381 words of extra memory for PDF output out of 10000 (max. 10000000)
 
