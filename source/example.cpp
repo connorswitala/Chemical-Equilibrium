@@ -25,7 +25,7 @@ int main() {
     CE.CFD_equilibrium(e, rho);  // Solve for equilibrium at T = 5000.0 K, and P = 101325.0 Pa
 
     print_properties(gas);  // Print mixture properties
-    // print_NASA_mix(gas);    // Print NASA thermodynamic table data for mixture (used for debugging)
+    print_NASA_mix(gas);    // Print NASA thermodynamic table data for mixture (used for debugging)
 
     // cout << gas.R << endl;      // Print just mixture specific gas constant
     // cout << gas.Y[0] << endl;   // Print just species [0] mass fraction.
