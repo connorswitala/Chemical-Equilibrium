@@ -108,7 +108,7 @@ void CESolver::CFD_equilibrium(double& e, double& rho) {
     double rlntot;  // Total ln(N)
 
     int iteration = 0;
-    int maxiter = 200;
+    int maxiter = 1000;
     vector<double> DlnNj(NS);
 
     // Initial conditions
@@ -169,9 +169,13 @@ void CESolver::CFD_equilibrium(double& e, double& rho) {
 
         // Check convergence
         converged = check_convergence(DlnNj.data(), rlntot, DELTA[J_SIZE - 1]);
-        if ((gas.uo - gas.e_ref) / (gcon * gas.T) - gas.up > 1.0e-5) converged = false;
-        if (converged) iteration = maxiter;
+        if (gas.uo - gas.e_ref - gas.up * gcon * gas.T > 1.0e-8) converged = false;
+        if (converged)
+            break;
     }
+
+    std::cout << "Iteration: " << iteration << std::endl;
+    gas.up = gas.up * gcon * gas.T + gas.e_ref;
 
     compute_mixture_properties();   // Compute molecular weights 
     compute_derivativesCFD();          // Find important derivatives
@@ -484,7 +488,7 @@ inline void CESolver::compute_mixture_properties() {
 // Convergence checker
 inline bool CESolver::check_convergence(double* dlnj, double& dln, double& dlnt) {
 
-    double sum = 0.0, check, tol = 0.5e-7;
+    double sum = 0.0, check, tol = 0.5e-9;
 
     for (int j = 0; j < NS; ++j)
         sum += gas.N[j];
@@ -494,7 +498,7 @@ inline bool CESolver::check_convergence(double* dlnj, double& dln, double& dlnt)
         if (check > tol) return false;
     }
 
-    if (fabs(dlnt) > 1.0e-16) 
+    if (fabs(dlnt) > 1.0e-8) 
         return false;
 
     check = gas.N_tot * fabs(dln) / sum;

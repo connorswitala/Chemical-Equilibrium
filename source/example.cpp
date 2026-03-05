@@ -8,7 +8,7 @@ int main() {
 
     // ======: Create gas mix using enum class for common mixes :======
 
-    mix gas = common_mixture(GasType::AIR11);                        
+    mix gas = common_mixture(GasType::AIR5);                        
 
 
     // =======: Create user-defined mix (Mars 8-species) :======
@@ -20,8 +20,8 @@ int main() {
     // mix gas = create_mixture(species, elements, initial);
 
     CESolver CE(gas, ConstraintType::CFD);                       // Construct CESolver class for minimization, using TP constraint.
-    double rho = 1.225;
-    double e = 5e5;
+    double rho = 4.786326e-01;
+    double e = 1.080720e+07;
     CE.CFD_equilibrium(e, rho);  // Solve for equilibrium at T = 5000.0 K, and P = 101325.0 Pa
 
     print_properties(gas);  // Print mixture properties
